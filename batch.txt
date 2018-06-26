@@ -1,0 +1,13 @@
+#!/bin/bash
+#SBATCH -p test			# priority for proofing code
+#SBATCH -t 5			# minutes...or d-hh:mm:ss
+#SBATCH -c 8			# number of cores
+#SBATCH --mem-per-cpu 10G	# memory total in MB (for all cores)
+
+mkdir -p ${SLURM_JOB_ID} # make a new directory
+
+module load gcc/7.1.0-fasrc01 R/3.5.0-fasrc01 # load R
+
+Rscript sim-cd4-trajectories.R 10000 25000 4 0.1 5 0.4 60000 # totalIter n K p.or exp(g3) exp(g4) seed
+
+mv slurm-${SLURM_JOB_ID}.out ${SLURM_JOB_ID}/slurm-${SLURM_JOB_ID}.out
